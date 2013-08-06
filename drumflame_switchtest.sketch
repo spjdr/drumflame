@@ -1,0 +1,17 @@
+void setup() {
+  Serial.begin(9600);           
+  pinMode(7, OUTPUT);      // s
+}
+
+void loop() {
+ finale();
+ delay(3000); 
+}
+
+///fires
+void finale() {
+  Serial.println("fire!");
+  digitalWrite(7,HIGH);
+  delay(3000);
+  digitalWrite(7,LOW); 
+}
