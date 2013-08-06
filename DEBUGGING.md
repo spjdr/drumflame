@@ -65,7 +65,7 @@ Hvis der ikke tælles op fra 1 til 10, er det trommerne som det er i vejen med.
  
 Vil man teste flammetænderen, kan man uploade følgende sketch til Arduinoen. Den tænder og slukker for flammekasteren i intervaller af 3 sekunder. Hvis det ikke virker bør man tjekke strøm-forbindelsen til flammekasteren.
 
-    void setup() {t
+    void setup() {
       Serial.begin(9600);           
       pinMode(7, OUTPUT);
     }
