@@ -1,7 +1,11 @@
 Debugging FlameDrum
 =====
 
+Hvis FlameDrum ikke virker, er der en del forksellige ting man kan kontrollere for at finde ud af hvor fejlen er opstået. 
+
 ## 1. Strøm
+
+Strøm er vigtigt, derfor skal man sikre sig at alle relevante forbindelser er forbundet rigtigt.
 
 ### 1.1. Er begge strømforsyninger tilsluttet? 
 
@@ -22,6 +26,8 @@ Hvis blæseren ikke kører mangler der strøm fra mindst en af strømforsyninger
 Der sidder en afbryder på forbindelsen mellem flammekasteren og boksen. Sørg for at den er tændt. Forbindelsen er ikke monteret korrekt i kassen. Sørg for at begge ledninger fra flammekasteren har god forbindelse til de to relevante ledninger i kassen (den ledning går fra elektronikken, og den anden er en blå eller gul ledning fra strømforsyningen). Sørg eventuelt for at montere to samlemuffer.
 
 ## 2. Fejlfinding
+
+Man kan bruge sin computer til at fejlfinde drumflame
 
 ### 2.1. Virker audio-skjoldet?
 
