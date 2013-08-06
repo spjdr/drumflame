@@ -3,27 +3,27 @@ Debugging FlameDrum
 
 ## 1. Strøm
 
-1. Er begge strømforsyninger tilsluttet? 
+### 1.1. Er begge strømforsyninger tilsluttet? 
 
 Sørg for at der er strøm på begge strømforsyninger, ellers virker skidtet ikke.
 
-2. Lyser indikator-lysene?
+### 1.2. Lyser indikator-lysene?
 
 Der sidder en grøn LED på forstærkeren som skal lyse. Derudover sidder der en grøn LED på arduinoen, som også skal lyse (den kan være svær at se, fordi selve arduinoen sidder gemt under audio-skjoldet). Hvis der mangler strøm, er det vigtigt at man finder ud af hvorfor. Tjek eventuelt næste punkt og se om det hjælper.
 
 Prøv eventuelt også at tænde og slukke strømforsyningerne hvis der mangler indikator-lys.
 
-3. Kører blæseren? 
+### 1.3. Kører blæseren? 
 
 Hvis blæseren ikke kører mangler der strøm fra mindst en af strømforsyningerne. Husk at den ene strømforsyning har en knap, som skal tændes. Knappen er monteret for enden af nogle af strømforsyningsledningerne. Led lidt efter den i ledningsrodet, og tryk den. Hvis blæseren så virker skulle alt være godt.
 
-4. Er forbindelsen til flammekasteren afbrudt?
+### 1.4. Er forbindelsen til flammekasteren afbrudt?
 
 Der sidder en afbryder på forbindelsen mellem flammekasteren og boksen. Sørg for at den er tændt. Forbindelsen er ikke monteret korrekt i kassen. Sørg for at begge ledninger fra flammekasteren har god forbindelse til de to relevante ledninger i kassen (den ledning går fra elektronikken, og den anden er en blå eller gul ledning fra strømforsyningen). Sørg eventuelt for at montere to samlemuffer.
 
 ## 2. Fejlfinding
 
-1. Virker audio-skjoldet?
+### 2.1. Virker audio-skjoldet?
 
 Man kan teste om trommerne virker ved at tilslutte sin computer til Arduinoen. Hent og installer det gratis Arduino-program, og forbind computeren til arduinoen med et USB-kabel. Når arduinoen er forbundet, vælger man fra menuen Tools, Serial Monitor og indstiller den til at læse med 9600 Baud. Når du har indstillet Baud kan det nogengange være en fordel at lukke og åbne Serial Monitor igen. 
 
@@ -39,11 +39,11 @@ Serial Monitor giver følgende output:
 
 Skriver den noget som helst andet er der en fejl på lydskjoldet.
 
-2. Virker forstærkeren?
+### 2.2. Virker forstærkeren?
 
 Hvis der ikke kommer nogen lyd, men audioskjoldet virker, kan det være forstærkeren den er gal med. Sikr dig at indikator-LEDDEN på forstærkeren lyser. Fjern eventuelt jack-stikket fra audioskjoldet og tilslut det til en telefon eller en anden mp3-afspiller, for at sikre dig at forstærkeren virker.
 
-3. Virker trommerne/Funky Town?
+### 2.3. Virker trommerne/Funky Town?
 
 Forsøg at spille temaet til Funky Town. 
 
@@ -61,8 +61,8 @@ Når sekvensen er spillet korrekt, for man enten at vide at: "Finally Fire", hvi
 
 Hvis der ikke tælles op fra 1 til 10, er det trommerne som det er i vejen med.
 
-4. Virker flammetænderen?
-
+### 2.4. Virker flammetænderen?
+ 
 Vil man teste flammetænderen, kan man uploade følgende sketch til Arduinoen. Den tænder og slukker for flammekasteren i intervaller af 3 sekunder. Hvis det ikke virker bør man tjekke strøm-forbindelsen til flammekasteren.
 
     void setup() {t
