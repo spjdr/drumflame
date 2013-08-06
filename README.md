@@ -7,4 +7,4 @@ Some of this documentation is in danish.
 
 - [drumflame.sketch](./drumflame.sketch)
 - [drumflame_switchtest.sketch](./drumflame_switchtest.sketch)
-- [Debugging.md](./Debugging.md)
+- [Debugging.md](./DEBUGGIN.md)
