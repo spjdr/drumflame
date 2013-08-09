@@ -1,44 +1,67 @@
-// You need the AudioLibrary WaveHC from https://code.google.com/p/wavehc/
+// You need the AudioLibrary WaveHC from https://code.google.com/p/wavehc/ 
 #include <FatReader.h>
 #include <SdReader.h>
 #include <avr/pgmspace.h>
 #include "WaveUtil.h"
 #include "WaveHC.h"
 
+/*
+ * SdReader and Waveshield setup 
+ */
+
 SdReader card;    // This object holds the information for the card
 FatVolume vol;    // This holds the information for the partition on the card
 FatReader root;   // This holds the information for the volumes root directory
 FatReader file;   // This object represent the WAV file for a pi digit or period
 WaveHC wave;      // This is the only wave (audio) object, since we will only play one at a time
+
 /*
  * Define macro to put error messages in flash memory
  */
+
 #define error(msg) error_P(PSTR(msg))
 
-#define DEBOUNCE 5  // button debouncer
+/* 
+ * Files and Filereader vars
+ */
 
 char files[20][13];
 uint8_t dirLevel; // indent level for file/dir names    (for prettyprinting)
 dir_t dirBuf;     // buffer for directory reads
 
-int playnext = 0;
-int maxfiles = 0;
-
 // here is where we define the buttons that we'll use. button "1" is the first, button "6" is the 6th, etc
 // This handy macro lets us determine how big the array up above is, by checking the size
 // we will track if a button is just pressed, just released, or 'pressed' (the current state
-//volatile byte pressed[NUMBUTTONS], justpressed[NUMBUTTONS], justreleased[NUMBUTTONS];
+// volatile byte pressed[NUMBUTTONS], justpressed[NUMBUTTONS], justreleased[NUMBUTTONS];
 
-// PAD
+/*
+ * Drumpad definitions
+ * We will 
+ * NUMBUTTONS is the number of buttons
+ * times :: stores the press time for each button
+ * level :: is the analog level (between 0 and 1024) triggering the drumpad
+ * melody :: is the key tune
+ * current :: stores the current progress in playing the key tune
+ * current_time :: is the current melody time
+ * max_time :: the max time to complete melody
+ * flame_time :: turn the flame on in <flametime> milliseconds
+ */
+
 byte buttons[] = {1,2,3,4};
 #define NUMBUTTONS sizeof(buttons)
 
 volatile byte justpressed[NUMBUTTONS];
 unsigned long times[NUMBUTTONS];
-int level[NUMBUTTONS] = {140,130,120,100};
+int level[NUMBUTTONS] = {140,130,120,100}; 
+
 int melody[10] = {0, 0, 1, 0, 2, 2, 0, 3, 4, 0};
-int current = 0;
-unsigned long melodytime = 0;
+int current = 0;  // current progress
+unsigned long current_time = 0; // current current_time
+int max_time = 9000; // in milliseconds
+
+int flame_time = 3000; // in milliseconds
+
+// iterator var
 int i;
 
 //// FREERAM
@@ -95,41 +118,42 @@ SIGNAL(TIMER2_OVF_vect) {
   check_switches();
 }
 
+// Check the switches
 void check_switches() {
   for (int i=0;i<NUMBUTTONS;i++){
-    //justpressed[index]=0;
-    if (analogRead(i) > level[i] && millis() > times[i] + 100)
+    if (analogRead(i) > level[i] && millis() > times[i] + 150)
     { 
-       times[i] = millis(); 
+       times[i] = millis();  // store the 
        justpressed[i]=1;
     }
   }     
 }
 
+// THE LOOP
 void loop() {
   byte i;
   
-  // finale
+  // We have played the key melody
   if (current==10) {
     Serial.println("Funky town!");
-    if(millis()-melodytime<9000) {
-      finale();
+    if(millis()-current_time < max_time) {
+      finale(); // FLAME!
     } else {
-      Serial.print(melodytime);
+      Serial.print(current_time);
       Serial.println(": No cake"); 
     }
     current = 0;
-    Serial.println(current);
+    Serial.println(current); // progress
   }
   
-  // 
+  // Pressing keys 1 - 4
   if (justpressed[0]) {
     justpressed[0] = 0;
     playfile("C4.WAV");
     if (melody[current]==0) {
       if (current==0) {
-        melodytime = millis();
-        Serial.println(melodytime);
+        current_time = millis();
+        Serial.println(current_time);
       }
       current = current+1;
       Serial.println(current); 
@@ -163,6 +187,7 @@ void loop() {
       current = current+1; 
       playcomplete("F4.WAV");
       Serial.println(current);
+      // play additional note
       current = current+1;
       playcomplete("E4.WAV");
       Serial.println(current);
@@ -174,7 +199,6 @@ void loop() {
   }
 }
 
-
 /*
  * print error message and halt
  */
@@ -184,9 +208,11 @@ void error_P(const char *str) {
   sdErrorCheck();
   while(1);
 }
+
 /*
  * print error message and halt if SD I/O error
  */
+
 void sdErrorCheck(void) {
   if (!card.errorCode()) return;
   PgmPrint("\r\nSD I/O error: ");
@@ -195,9 +221,11 @@ void sdErrorCheck(void) {
   Serial.println(card.errorData(), HEX);
   while(1);
 }
+
 /*
  * Play a file and wait for it to complete
  */
+
 void playcomplete(char *name) {
   playfile(name);
   while (wave.isplaying);
@@ -205,9 +233,11 @@ void playcomplete(char *name) {
   // see if an error occurred while playing
   sdErrorCheck();
 }
+
 /*
  * Open and start playing a WAV file
  */
+
 void playfile(char *name) {
   if (wave.isplaying) {// already playing something, so stop it!
     wave.stop(); // stop it
@@ -225,11 +255,11 @@ void playfile(char *name) {
   wave.play();
 }
 
-///fires
+/// FIRE!
 void finale() {
   Serial.println("Finally Fire!");
   digitalWrite(7,HIGH);
-  delay(3000);
+  delay(flame_time);
   digitalWrite(7,LOW); 
 }
 
