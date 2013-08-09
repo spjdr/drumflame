@@ -5,6 +5,6 @@ A drumbox with fire programmed using an Arduino, the Adafruit audioshield, and f
 
 Some of this documentation is in danish.
 
-- [drumflame.sketch](./drumflame.sketch)
-- [drumflame_switchtest.sketch](./drumflame_switchtest.sketch)
-- [Debugging.md](./DEBUGGIN.md)
+- The Arduino source code: [drumflame.sketch](./drumflame.sketch)
+- Testing the flame code: [drumflame_switchtest.sketch](./drumflame_switchtest.sketch)
+- Debugging information [Debugging.md](./DEBUGGING.md)
